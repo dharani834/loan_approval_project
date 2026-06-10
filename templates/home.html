@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Loan Approval Predictor</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #4facfe, #00f2fe);
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 420px;
+            background: white;
+            margin: 40px auto;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin: 6px 0;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #4facfe;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            margin-top: 10px;
+        }
+
+        button:hover {
+            background: #007bff;
+        }
+
+        .result {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 18px;
+            font-weight: bold;
+            color: green;
+        }
+
+        .section-title {
+            margin-top: 10px;
+            font-weight: bold;
+            color: #444;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+    <h2>Loan Approval Predictor</h2>
+
+    <form action="/predict" method="post">
+
+        <div class="section-title">Applicant Details</div>
+
+        <input type="number" name="no_of_dependents" placeholder="No of Dependents" required>
+
+        <input type="number" name="education" placeholder="Education (0 = No, 1 = Yes)" required>
+
+        <input type="number" name="self_employed" placeholder="Self Employed (0/1)" required>
+
+        <input type="number" name="cibil_score" placeholder="CIBIL Score" required>
+
+
+        <div class="section-title">Income Details</div>
+
+        <input type="number" name="income_annum" placeholder="Annual Income" required>
+
+        <input type="number" name="loan_amount" placeholder="Loan Amount" required>
+
+        <input type="number" name="loan_term" placeholder="Loan Term (Years)" required>
+
+
+        <div class="section-title">Assets Details</div>
+
+        <input type="number" name="residential_assets_value" placeholder="Residential Assets Value" required>
+
+        <input type="number" name="commercial_assets_value" placeholder="Commercial Assets Value" required>
+
+        <input type="number" name="luxury_assets_value" placeholder="Luxury Assets Value" required>
+
+        <input type="number" name="bank_asset_value" placeholder="Bank Asset Value" required>
+
+        <button type="submit">Predict Loan Status</button>
+    </form>
+
+    {% if prediction_text %}
+        <div class="result">
+            {{ prediction_text }}
+        </div>
+    {% endif %}
+</div>
+
+</body>
+</html>
