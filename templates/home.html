@@ -1,66 +1,64 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Loan Approval Predictor</title>
+    <title>Loan Approval Prediction</title>
 
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #4facfe, #00f2fe);
-            margin: 0;
-            padding: 0;
+            font-family: Arial;
+            background: #f4f6f9;
+            text-align: center;
         }
 
         .container {
-            width: 420px;
+            width: 60%;
+            margin: auto;
             background: white;
-            margin: 40px auto;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0px 0px 15px rgba(0,0,0,0.2);
+            padding: 20px;
+            margin-top: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px gray;
         }
 
-        h2 {
-            text-align: center;
-            color: #333;
+        h1 {
+            color: #2c3e50;
         }
 
-        input {
-            width: 100%;
+        input, select {
+            width: 80%;
             padding: 10px;
-            margin: 6px 0;
+            margin: 8px;
+            border-radius: 5px;
             border: 1px solid #ccc;
-            border-radius: 6px;
         }
 
         button {
-            width: 100%;
-            padding: 12px;
-            background: #4facfe;
+            width: 85%;
+            padding: 10px;
+            background: #27ae60;
             color: white;
             border: none;
-            border-radius: 6px;
-            cursor: pointer;
             font-size: 16px;
-            margin-top: 10px;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
         button:hover {
-            background: #007bff;
+            background: #219150;
         }
 
         .result {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 18px;
+            margin-top: 20px;
+            font-size: 20px;
             font-weight: bold;
-            color: green;
+            color: #e74c3c;
         }
 
-        .section-title {
-            margin-top: 10px;
+        .section {
+            text-align: left;
+            margin-left: 10%;
             font-weight: bold;
-            color: #444;
+            color: #34495e;
         }
     </style>
 </head>
@@ -68,22 +66,29 @@
 <body>
 
 <div class="container">
-    <h2>Loan Approval Predictor</h2>
 
-    <form action="/predict" method="post">
+    <h1>🏦 Loan Approval Prediction System</h1>
 
-        <div class="section-title">Applicant Details</div>
+    <form action="/predict" method="POST">
+
+        <!-- 1 -->
+        <div class="section">Applicant Details</div>
 
         <input type="number" name="no_of_dependents" placeholder="No of Dependents" required>
 
-        <input type="number" name="education" placeholder="Education (0 = No, 1 = Yes)" required>
+        <select name="education">
+            <option value="1">Graduate (1)</option>
+            <option value="0">Not Graduate (0)</option>
+        </select>
 
-        <input type="number" name="self_employed" placeholder="Self Employed (0/1)" required>
+        <select name="self_employed">
+            <option value="1">Self Employed (1)</option>
+            <option value="0">Not Self Employed (0)</option>
+        </select>
 
-        <input type="number" name="cibil_score" placeholder="CIBIL Score" required>
 
-
-        <div class="section-title">Income Details</div>
+        <!-- 2 -->
+        <div class="section">Income Details</div>
 
         <input type="number" name="income_annum" placeholder="Annual Income" required>
 
@@ -91,8 +96,11 @@
 
         <input type="number" name="loan_term" placeholder="Loan Term (Years)" required>
 
+        <input type="number" name="cibil_score" placeholder="CIBIL Score" required>
 
-        <div class="section-title">Assets Details</div>
+
+        <!-- 3 -->
+        <div class="section">Assets Details</div>
 
         <input type="number" name="residential_assets_value" placeholder="Residential Assets Value" required>
 
@@ -102,7 +110,9 @@
 
         <input type="number" name="bank_asset_value" placeholder="Bank Asset Value" required>
 
+
         <button type="submit">Predict Loan Status</button>
+
     </form>
 
     {% if prediction_text %}
@@ -110,6 +120,7 @@
             {{ prediction_text }}
         </div>
     {% endif %}
+
 </div>
 
 </body>

@@ -1,49 +1,76 @@
-from flask import Flask,request,render_template
-import numpy as np
 import pickle
+from flask import Flask, request, jsonify, render_template
+import numpy as np
+app = Flask(__name__)
 
-app=Flask(__name__)
-model=pickle.load(open("loan_approval_model (1).pkl","rb"))
-
+# Load model
+model = pickle.load(open("loan_approval_model (1).pkl", "rb"))
 
 @app.route('/')
 def home():
-    return render_template("home.html")
+    return render_template('home.html')
 
-@app.route('/predict',methods=["POST"])
 
-@app.route('/predict', methods=["POST"])
-def predict():
+# ---------------- API (Postman / Render testing) ----------------
+@app.route('/predict_api', methods=['POST'])
+def predict_api():
     try:
-        data = request.get_json(force=True)
+        data = request.json['data']
 
         features = [
-            data['no_of_dependents'],
-            data['education'],
-            data['self_employed'],
-            data['income_annum'],
-            data['loan_amount'],
-            data['loan_term'],
-            data['cibil_score'],
-            data['residential_assets_value'],
-            data['commercial_assets_value'],
-            data['luxury_assets_value'],
-            data['bank_asset_value']
+            int(data['no_of_dependents']),
+            int(data['education']),
+            int(data['self_employed']),
+            int(data['income_annum']),
+            int(data['loan_amount']),
+            int(data['loan_term']),
+            int(data['cibil_score']),
+            int(data['residential_assets_value']),
+            int(data['commercial_assets_value']),
+            int(data['luxury_assets_value']),
+            int(data['bank_asset_value'])
         ]
 
-        input_data = np.array([features])
+        input_data = np.array(features).reshape(1, -1)
 
         prediction = model.predict(input_data)[0]
 
-        result = "Approval" if prediction == 1 else "Rejected"
+        result = "Approved" if prediction == 1 else "Rejected"
 
-        return {"prediction": result}
+        return jsonify(result)
 
     except Exception as e:
-        return {"error": str(e)}
-    
-if __name__=="__main__":
+        return jsonify({"error": str(e)})
+
+
+# ---------------- Web Form (HTML UI) ----------------
+@app.route('/predict', methods=['POST'])
+def predict():
+    try:
+        features = [
+    int(request.form['no_of_dependents']),
+    int(request.form['education']),
+    int(request.form['self_employed']),
+    int(request.form['income_annum']),
+    int(request.form['loan_amount']),
+    int(request.form['loan_term']),
+    int(request.form['cibil_score']),
+    int(request.form['residential_assets_value']),
+    int(request.form['commercial_assets_value']),
+    int(request.form['luxury_assets_value']),
+    int(request.form['bank_asset_value'])
+    ]
+
+        input_data = np.array(features).reshape(1, -1)
+
+        prediction = model.predict(input_data)[0]
+
+        result = "Loan Approved ✅" if prediction == 1 else "Loan Rejected ❌"
+
+        return render_template("home.html", prediction_text=result)
+
+    except Exception as e:
+        return str(e)
+
+if __name__ == "__main__":
     app.run(debug=True)
-
-
-    
