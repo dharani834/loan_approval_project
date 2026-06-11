@@ -47,4 +47,7 @@ The system takes user input such as income, credit score, loan amount, and asset
 
 ---
 
+## 🚀 Live Demo
+👉 https://loan-approval-project-2-jepd.onrender.com/
+
 ## 📁 Project Structure
